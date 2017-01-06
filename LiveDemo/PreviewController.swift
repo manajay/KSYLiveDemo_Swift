@@ -33,7 +33,7 @@ enum ScreenOrientation {
 class PreviewController: UIViewController {
   
   var orientation:ScreenOrientation = .portrait
-  var address: String = "rtmp://115.29.150.217/live/mobile"
+  var address: String = "rtmp://xxxxxx/live/mobile"
 
   fileprivate lazy var kit: KSYGPUStreamerKit = {
     let kit = KSYGPUStreamerKit()
@@ -50,8 +50,8 @@ class PreviewController: UIViewController {
     kit.cameraPosition  = .back
     kit.streamerBase.videoFPS = 20
     kit.maxAutoRetry  = 10
-    kit.streamerBase.logBlock  = { (msg) in
-      print(msg)
+    kit.streamerBase.logBlock  = { (_) in
+      
     }
     
     kit.videoProcessingCallback = {
