@@ -9,6 +9,8 @@
 import UIKit
 
 typealias ResourcePath = (_ filePath:String ,_ fileName:String) -> ()
+/// 处理结果的回调, 成功与否, 返回信息
+typealias HandleResultTuples = (isSuccess:Bool, message:String)
 
 // MARK: - 路径相关
 //
@@ -38,25 +40,6 @@ let tmpPath = NSTemporaryDirectory()
  所以当我们工程中有一个SQLite数据库要使用，在程序启动时，我们可以把该路径下的数据库拷贝一份到Documents路径下，以后整个工程都将操作Documents路径下的数据库。
  */
 let bundlePath = Bundle.main
-
-// sqlite数据库文件目录
-let dbPath = documentPath + "juyun.sqlite"
-
-func remakeDbPath() {
-    if !FileManager.default.fileExists(atPath:dbPath){
-        //获取安装包内数据库路径
-        let bundleDBPath:String? = Bundle.main.path(forResource: "juyun", ofType: "sqlite")
-        //将安装包内数据库拷贝到Documents目录下
-        
-        do {
-            try FileManager.default.copyItem(atPath: bundleDBPath!, toPath: dbPath)
-        } catch let error as NSError {
-            debugPrint( error)
-        }
-        
-    }
-}
-
 
 extension FileManager {
 
@@ -110,66 +93,6 @@ extension FileManager {
     debugPrint( "目录:\(path) -> 大小:\(mm)M")
     return mm
   }
-  
-  
-  /// 缓存目录的大小
-  public var cachesPathSize:Double {
-    return FileManager.fileSize(at: cachesPath) + FileManager.fileSize(at: kVideoPath)
-  }
-  
-  /// 清除指定路径的文件缓存 , 建议子线程操作
-  /// 清除 缓存目录下的文件
-  class func clearPathFolder(at path:String) -> HandleResultTuples{
-    
-    let fileArr = FileManager.default.subpaths(atPath: path)
-    
-    //快速枚举出 所有文件名
-    
-    guard let files = fileArr else {
-      return (true,"操作成功")
-    }
-    
-    for file in files {
-      
-      //过滤文件 Snapshots(权限问题)
-      if file.contain("Snapshots") {
-        continue
-      }
-      
-      //把文件名拼接到路径中
-      let filePath = path + "/\(file)"
-      if FileManager.default.fileExists(atPath: filePath) {
-        do {
-          try FileManager.default.removeItem(atPath: filePath)
-        } catch let error as NSError {
-          debugPrint( error)
-          return (false,error.description)
-        }
-      }
-    }
-    return (true,"操作成功")
-  }// end func
-  
-  /// 清除 缓存目录下的文件
-  class func clearCachesPathFolder() -> HandleResultTuples{
-    
-    _ = FileManager.clearPathFolder(at: kVideoPath)
-    
-    return FileManager.clearPathFolder(at: cachesPath)
-  }// end func
-  
-  
-  
-  class func clearImageCache(filePath:String) -> HandleResultTuples {
-    do {
-      try FileManager.default.removeItem(atPath: filePath)
-      return (true,"操作成功")
-    } catch _ as NSError {
-      return (false,"文件不存在")
-    }
-  }
-  
-  
   
     class func valid(filePath: String) {
     

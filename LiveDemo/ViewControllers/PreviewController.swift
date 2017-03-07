@@ -71,6 +71,7 @@ class PreviewController: UIViewController {
     kit.streamerBase.logBlock  = { (msg) in
       if let msg = msg {
         #if DEBUG
+          self.writeToLocalFile(with: msg)
         #endif
       }
     }
@@ -577,7 +578,7 @@ extension PreviewController {
     if let url = URL(string: address) {
       kit.streamerBase.startStream(url);
     } else {
-
+        self.stateLabel.text = "无效的链接地址"
     }
     
   }
@@ -626,8 +627,8 @@ extension PreviewController {
       let writeHandler = try FileHandle(forWritingTo: URL(fileURLWithPath: streamInfoPath))
       writeHandler.seekToEndOfFile()
       writeHandler.write(data)
-    } catch let error {
-      printDebug(error)
+    } catch let _ {
+      
     }
   }
   
