@@ -22,10 +22,9 @@ class PostAffairController: UIViewController {
   
   fileprivate lazy var streamURLStringTextField: UITextField = {
     let textField = UITextField(frame: .zero)
-    let leftLabel = UILabel()
-    leftLabel.text = "请输入推流地址"
-    leftLabel.frame = CGRect(origin: .zero, size: CGSize(width: 60, height: 40))
-    textField.leftView = leftLabel
+    textField.borderStyle = .roundedRect
+    textField.placeholder = "请输入推流地址"
+    textField.keyboardType = .asciiCapable
     return textField
   }()
   
@@ -66,7 +65,7 @@ class PostAffairController: UIViewController {
 extension PostAffairController {
 
   @objc fileprivate func dismissController() {
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.0) {
       DispatchQueue.main.async {
         self.dismiss(animated: true, completion: {
           if let delegate = UIApplication.shared.delegate as? AppDelegate ,let main = delegate.window?.rootViewController as? MainViewController {

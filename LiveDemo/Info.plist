@@ -2,20 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>NSBluetoothPeripheralUsageDescription</key>
-  <string>直播需要蓝牙获取信息, 是否允许使用?</string>
-  <key>NSCameraUsageDescription</key>
-  <string>直播需要获取您相机的权限,请允许</string>
-  <key>NSLocationAlwaysUsageDescription</key>
-  <string>地图定位 功能需要通过持续定位获取您的地理信息,若拒绝，您将无法使用地图时时定位功能.注意:使用后台定位会大大消耗您的电池寿命,是否允许</string>
-  <key>NSLocationUsageDescription</key>
-  <string>直播地图需要通过您的地理信息获取您的周边数据,并显示在地图上</string>
-  <key>NSLocationWhenInUseUsageDescription</key>
-  <string>我们需要通过您的地理位置获取周边信息,是否允许使用定位服务?</string>
-  <key>NSMicrophoneUsageDescription</key>
-  <string>直播需要获取您话筒的权限,请允许</string>
-  <key>NSPhotoLibraryUsageDescription</key>
-  <string>上传图片需要获取您相册的权限,请允许</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>直播需要蓝牙获取信息, 是否允许使用?</string>
+	<key>NSCameraUsageDescription</key>
+	<string>直播需要获取您相机的权限,请允许</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>地图定位 功能需要通过持续定位获取您的地理信息,若拒绝，您将无法使用地图时时定位功能.注意:使用后台定位会大大消耗您的电池寿命,是否允许</string>
+	<key>NSLocationUsageDescription</key>
+	<string>直播地图需要通过您的地理信息获取您的周边数据,并显示在地图上</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>我们需要通过您的地理位置获取周边信息,是否允许使用定位服务?</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>直播需要获取您话筒的权限,请允许</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>上传图片需要获取您相册的权限,请允许</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

@@ -132,6 +132,7 @@ class PreviewController: UIViewController {
     let lightButton = UIButton(frame: CGRect.zero)
     lightButton.setImage(#imageLiteral(resourceName: "light_black"), for: .normal)
     lightButton.setImage(#imageLiteral(resourceName: "light_open"), for: .selected)
+    lightButton.isExclusiveTouch = true
     return lightButton
   }()
   
@@ -139,6 +140,7 @@ class PreviewController: UIViewController {
   fileprivate var cameraButton: UIButton = {
     let cameraButton = UIButton(frame: CGRect.zero)
     cameraButton.setImage(#imageLiteral(resourceName: "camera_reverse"), for: .normal)
+    cameraButton.isExclusiveTouch = true
     return cameraButton
   }()
   
@@ -147,6 +149,9 @@ class PreviewController: UIViewController {
     let beautyButton = UIButton(frame: CGRect.zero)
     beautyButton.setImage(#imageLiteral(resourceName: "beauty_magic_open"), for: UIControlState.selected)
     beautyButton.setImage(#imageLiteral(resourceName: "beauty_magic"), for: .normal)
+    //  美颜按钮 选中状态
+    beautyButton.isSelected = true
+    beautyButton.isExclusiveTouch = true
     return beautyButton
   }()
   
@@ -155,6 +160,7 @@ class PreviewController: UIViewController {
     let startLiveButton = UIButton(frame: CGRect.zero)
     startLiveButton.setImage(#imageLiteral(resourceName: "live_start"), for: .normal)
     startLiveButton.setImage(#imageLiteral(resourceName: "live_stop"), for: .selected)
+    startLiveButton.isExclusiveTouch = true
     return startLiveButton
   }()
   
@@ -165,6 +171,7 @@ class PreviewController: UIViewController {
     button.setImage(#imageLiteral(resourceName: "bleft"), for: .normal)
     button.setTitle(" 在线直播", for: .normal)
     button.titleLabel!.font = UIFont.systemFont(ofSize: 18)
+    button.isExclusiveTouch = true
     return button
   }()
   
@@ -189,6 +196,7 @@ extension PreviewController {
     
     addObservers()
     rotate(to: orientation.preferredInterfaceOrientationForPresentation)
+    preparePreview()
     setupPreview()
     addTargetAction()
   }
@@ -222,9 +230,8 @@ extension PreviewController {
   
   fileprivate func setupPreview() {
     
-    view.backgroundColor = UIColor.clear
+    view.backgroundColor = .clear
     view.addSubview(containerView)
-    
     
     containerView.addSubview(stateLabel)
     containerView.addSubview(beautyButton)
@@ -295,10 +302,6 @@ extension PreviewController {
       make.height.equalTo(40)
       make.width.equalTo(40)
     }
-    
-    
-    //  美颜按钮 选中状态
-    beautyButton.isSelected = true
     
   }
 }
