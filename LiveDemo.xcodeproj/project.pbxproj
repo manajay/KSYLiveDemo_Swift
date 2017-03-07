@@ -24,6 +24,7 @@
 		AEED1C4C1E6EAF4500DAC807 /* PostAffairController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C3E1E6EAF4500DAC807 /* PostAffairController.swift */; };
 		AEED1C4D1E6EAF4500DAC807 /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C3F1E6EAF4500DAC807 /* PreviewController.swift */; };
 		AEED1C4F1E6EBD1A00DAC807 /* SwiftyTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C4E1E6EBD1A00DAC807 /* SwiftyTimer.swift */; };
+		AEED1C511E6EBEBB00DAC807 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C501E6EBEBB00DAC807 /* FileManager+Extension.swift */; };
 		CBFE2CA910C66EC5CDDCCC84 /* Pods_LiveDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5453F9C04AB2E45FE462FC /* Pods_LiveDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		AEED1C3E1E6EAF4500DAC807 /* PostAffairController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAffairController.swift; sourceTree = "<group>"; };
 		AEED1C3F1E6EAF4500DAC807 /* PreviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
 		AEED1C4E1E6EBD1A00DAC807 /* SwiftyTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyTimer.swift; sourceTree = "<group>"; };
+		AEED1C501E6EBEBB00DAC807 /* FileManager+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
 		EA5453F9C04AB2E45FE462FC /* Pods_LiveDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LiveDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -125,6 +127,7 @@
 		AEED1C2F1E6EAF4500DAC807 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				AEED1C501E6EBEBB00DAC807 /* FileManager+Extension.swift */,
 				AEED1C301E6EAF4500DAC807 /* DeviceRotation+Extension.swift */,
 				AEED1C311E6EAF4500DAC807 /* UIColor+Extension.swift */,
 				AEED1C321E6EAF4500DAC807 /* UIDevice+Extension.swift */,
@@ -296,6 +299,7 @@
 				AEED1C431E6EAF4500DAC807 /* UIDevice+Extension.swift in Sources */,
 				AEED1C4C1E6EAF4500DAC807 /* PostAffairController.swift in Sources */,
 				AEED1C441E6EAF4500DAC807 /* UILabel+Extension.swift in Sources */,
+				AEED1C511E6EBEBB00DAC807 /* FileManager+Extension.swift in Sources */,
 				AEED1C4F1E6EBD1A00DAC807 /* SwiftyTimer.swift in Sources */,
 				AEED1C461E6EAF4500DAC807 /* AppDelegate.swift in Sources */,
 				AEED1C481E6EAF4500DAC807 /* MainViewController.swift in Sources */,

@@ -127,7 +127,6 @@ class PreviewController: UIViewController {
     let timer = Timer.every(1.second, {
       if self.startLiveButton.isSelected == true && self.recording {
         self.recordInterval += 1
-        self.updateStreamState()
       }
     })
     
@@ -235,6 +234,7 @@ extension PreviewController {
     preparePreview()
     setupPreview()
     addTargetAction()
+    activeRecordTimer()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -561,6 +561,7 @@ extension PreviewController {
   }
   
   @objc fileprivate func didTappedTitleLiveButton(_ button: UIButton) -> Void {
+    recordTimer.invalidate()
     dismiss(animated: true)
   }
   
@@ -605,12 +606,41 @@ extension PreviewController {
     guard let vCapDev = kit.vCapDev, kit.isTorchSupported() else { return }
     if vCapDev.cameraPosition() == AVCaptureDevicePosition.back {
       kit.toggleTorch()
-    } else {
-      
-    }
-    
+    } else {}
   }
   
+  /// 激活记录推流时间的定时器
+  fileprivate func activeRecordTimer() {
+    recordTimer.start(runLoop: .current, modes: .commonModes)
+  }
+  
+}
+
+extension PreviewController {
+
+  fileprivate func writeToLocalFile(with data: Data) {
+    FileManager.valid(filePath: kStreamInfoFolder)
+    let streamInfoPath = (kStreamInfoFolder as NSString).appendingPathComponent("streamInfo.txt")
+    FileManager.fileExists(at: streamInfoPath)
+    do {
+      let writeHandler = try FileHandle(forWritingTo: URL(fileURLWithPath: streamInfoPath))
+      writeHandler.seekToEndOfFile()
+      writeHandler.write(data)
+    } catch let error {
+      printDebug(error)
+    }
+  }
+  
+  fileprivate func writeToLocalFile(with streamInfo: String) {
+    let dateFormat = DateFormatHelp.share
+    dateFormat.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    let dateString = "推流时间:" + dateFormat.string(from: Date()) + "      \n 推流内容: "
+    let composeString = (dateString + streamInfo + "\n                                                                       \n")
+    if let data = composeString.data(using: .utf8) {
+      writeToLocalFile(with: data)
+    }
+  }
+
 }
 
 func Log<T>(message : T, file : String = #file, lineNumber : Int = #line) {
@@ -678,3 +708,19 @@ extension PreviewController {
     }, to: orientation)
   }
 }
+
+
+/// 单例 DateFormatter
+class DateFormatHelp:DateFormatter {
+  
+  private static let shareInstance = DateFormatHelp()
+  
+  class var share:DateFormatHelp {
+    
+    shareInstance.timeZone = TimeZone.current
+    shareInstance.locale = Locale.current
+    
+    return shareInstance
+  }
+}
+
