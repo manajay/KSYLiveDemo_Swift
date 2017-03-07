@@ -123,6 +123,38 @@ class PreviewController: UIViewController {
     return view
   }()
   
+  fileprivate lazy var recordTimer:Timer = {
+    let timer = Timer.every(1.second, {
+      if self.startLiveButton.isSelected == true && self.recording {
+        self.recordInterval += 1
+        self.updateStreamState()
+      }
+    })
+    
+    return timer
+  }()
+  
+  fileprivate var recordInterval:TimeInterval = 0{
+    didSet{
+      //处理日期
+      Log(message: "记录的时间:\(recordInterval)")
+      let date = Date(timeIntervalSince1970: recordInterval)
+      let dateFormat = DateFormatter()
+      dateFormat.timeZone = TimeZone(secondsFromGMT: 0)
+      dateFormat.dateFormat = "HH:mm:ss"
+      
+      let dateString = dateFormat.string(from: date)
+      
+      // 主线程设置 ui
+      DispatchQueue.main.async(execute: {
+        self.recordLabel.text = "REC  " + dateString
+      })
+      
+      
+    }
+  }
+  
+  
   
   /// 记录是否在 直播
   fileprivate var recording: Bool = false
@@ -185,6 +217,10 @@ class PreviewController: UIViewController {
     imageView.alpha = 0.0
     return imageView
   }()
+  
+  deinit {
+    removeObs()
+  }
 }
 
 
