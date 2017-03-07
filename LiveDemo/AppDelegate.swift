@@ -26,40 +26,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
-
 // MARK: - 横竖屏旋转
 extension AppDelegate {
   
+  /**
+   This method returns the total set of interface orientations supported by the app. When determining whether to rotate a particular view controller, the orientations returned by this method are intersected with the orientations supported by the root view controller or topmost presented view controller. The app and view controller must agree before the rotation is allowed.
+   
+   If you do not implement this method, the app uses the values in the UIInterfaceOrientation key of the app’s Info.plist as the default interface orientations.
+   */
   func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
     
-    if let rootViewController = self.currentViewControllerWithRootViewController(rootViewController: window?.rootViewController){
+    
+    if let rootViewController = self.currentViewController(with: window?.rootViewController){
       // 需要横屏的设置能够横屏
-      if rootViewController.responds(to: Selector(("canRotate"))){
+      if rootViewController.responds(to: NSSelectorFromString("canRotate")) {
         return .allButUpsideDown
       }
     }
     // 默认只能显示竖屏
     return .portrait
-    
-  }
-  
-  private func currentViewControllerWithRootViewController(rootViewController: UIViewController!)->UIViewController?{
-    if nil == rootViewController{
-      return nil
-    }
-    // UITabBarController就接着查找它当前显示的selectedViewController
-    if rootViewController.isKind(of: UITabBarController.self){
-      return self.currentViewControllerWithRootViewController(rootViewController: (rootViewController as! UITabBarController).selectedViewController)
-      // UINavigationController就接着查找它当前显示的visibleViewController
-    }else if rootViewController.isKind(of: UINavigationController.self){
-      return self.currentViewControllerWithRootViewController(rootViewController: (rootViewController as! UINavigationController).visibleViewController)
-      // 如果当前窗口有presentedViewController,就接着查找它的presentedViewController
-    }else if nil != rootViewController.presentedViewController{
-      return self.currentViewControllerWithRootViewController(rootViewController: rootViewController.presentedViewController)
-    }
-    // 否则就代表找到了当前显示的控制器
-    return rootViewController
   }
   
 }
-

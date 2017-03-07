@@ -13,7 +13,7 @@ class ShowNavigationController: BaseNavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-      addPanGesture()
+//      addPanGesture()
     }
   
   fileprivate func addPanGesture() {

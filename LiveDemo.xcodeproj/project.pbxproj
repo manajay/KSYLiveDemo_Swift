@@ -21,6 +21,7 @@
 		AE1837041E1DF4A60011F11F /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1837031E1DF4A60011F11F /* PreviewController.swift */; };
 		AE1837061E1DFE9C0011F11F /* DeviceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1837051E1DFE9C0011F11F /* DeviceHelper.swift */; };
 		AE1837081E1E11A00011F11F /* PreviewAutoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1837071E1E11A00011F11F /* PreviewAutoController.swift */; };
+		AEED1C281E6EAA4D00DAC807 /* DeviceRotation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C271E6EAA4C00DAC807 /* DeviceRotation+Extension.swift */; };
 		CBFE2CA910C66EC5CDDCCC84 /* Pods_LiveDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5453F9C04AB2E45FE462FC /* Pods_LiveDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		AE1837031E1DF4A60011F11F /* PreviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
 		AE1837051E1DFE9C0011F11F /* DeviceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceHelper.swift; sourceTree = "<group>"; };
 		AE1837071E1E11A00011F11F /* PreviewAutoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewAutoController.swift; sourceTree = "<group>"; };
+		AEED1C271E6EAA4C00DAC807 /* DeviceRotation+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DeviceRotation+Extension.swift"; sourceTree = "<group>"; };
 		EA5453F9C04AB2E45FE462FC /* Pods_LiveDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LiveDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -99,6 +101,7 @@
 				AE1836F11E1DEF7A0011F11F /* BaseNavigationController.swift */,
 				AE1836F21E1DEF7A0011F11F /* MainViewController.swift */,
 				AE1836F31E1DEF7A0011F11F /* ShowNavigationController.swift */,
+				AEED1C271E6EAA4C00DAC807 /* DeviceRotation+Extension.swift */,
 				AE1836DF1E1DEEA60011F11F /* AppDelegate.swift */,
 				AE1836F71E1DF0090011F11F /* HomeController.swift */,
 				AE1836F91E1DF01F0011F11F /* MapController.swift */,
@@ -242,6 +245,7 @@
 				AE1837081E1E11A00011F11F /* PreviewAutoController.swift in Sources */,
 				AE1836FA1E1DF01F0011F11F /* MapController.swift in Sources */,
 				AE1837001E1DF13E0011F11F /* UIColor+Extension.swift in Sources */,
+				AEED1C281E6EAA4D00DAC807 /* DeviceRotation+Extension.swift in Sources */,
 				AE1836E01E1DEEA60011F11F /* AppDelegate.swift in Sources */,
 				AE1836F81E1DF0090011F11F /* HomeController.swift in Sources */,
 				AE1836F41E1DEF7A0011F11F /* BaseNavigationController.swift in Sources */,

@@ -16,20 +16,20 @@ class MainViewController: UITabBarController ,UITabBarControllerDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.delegate = self
+        delegate = self
         //初始化子控制器
-        self.initSubVC()
+        initSubVC()
         // 添加加号按钮
-        self.setupComposedButton()
+        setupComposedButton()
         
         // 解决 横屏的 selectedViewController 解包失败的问题
-        self.selectedIndex = 0
+        selectedIndex = 0
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 将撰写按钮弄到最前面
-        self.tabBar.bringSubview(toFront: self.composedButton)
+        tabBar.bringSubview(toFront: composedButton)
     }
     // MARK: - setupView
     
@@ -37,14 +37,14 @@ class MainViewController: UITabBarController ,UITabBarControllerDelegate{
         /**此处的控制器换成自己的**/
         // 1.
         let latestTrendsVC = HomeController()
-        self.setupChildVC(latestTrendsVC, title: "最新动态", imageName: "lastestTrend")
+        setupChildVC(latestTrendsVC, title: "最新动态", imageName: "lastestTrend")
         
         // 2.
-        self.addChildViewController(UIViewController())
+        addChildViewController(UIViewController())
         
         // 3.
         let mapVC = MapController()
-        self.setupChildVC(mapVC, title: "地图定位", imageName: "map_location")
+        setupChildVC(mapVC, title: "地图定位", imageName: "map_location")
     }
     //初始化所有子控制器
     
@@ -56,7 +56,7 @@ class MainViewController: UITabBarController ,UITabBarControllerDelegate{
         
         let Nav = BaseNavigationController(rootViewController: childVC)
         //3.
-        self.addChildViewController(Nav)
+        addChildViewController(Nav)
     }
     // MARK: - private
     
@@ -81,14 +81,14 @@ class MainViewController: UITabBarController ,UITabBarControllerDelegate{
     // MARK: - 特殊控制器
     
     func setupComposedButton() {
-        self.tabBar.addSubview(self.composedButton)
+        tabBar.addSubview(composedButton)
        
         
-        let count = self.childViewControllers.count
+        let count = childViewControllers.count
         // 让按钮宽一点点，能够解决手指触摸的容错问题
-        let width: CGFloat = self.tabBar.bounds.size.width / CGFloat(count) - 1
-        self.composedButton.frame = self.tabBar.bounds.insetBy(dx: width, dy: 0)
-        self.composedButton.addTarget(self, action: #selector(self.clickComposedButton), for: .touchUpInside)
+        let width: CGFloat = tabBar.bounds.size.width / CGFloat(count) - 1
+        composedButton.frame = tabBar.bounds.insetBy(dx: width, dy: 0)
+        composedButton.addTarget(self, action: #selector(clickComposedButton), for: .touchUpInside)
     }
     
     lazy var composedButton: UIButton = {
@@ -98,49 +98,53 @@ class MainViewController: UITabBarController ,UITabBarControllerDelegate{
 
         return button
     }()
-   
-    
-    // MARK: - ACTION
-    /**
-     *  转场出 加号 视图控制器
-     */
-    func clickComposedButton() {
-        //
-        let composeViewController = PostAffairController()
-        let navi = ShowNavigationController(rootViewController: composeViewController)
-        navi.modalPresentationStyle = .custom
-        weak var weakSelf = self
-        self.present(navi, animated: true, completion: {() -> Void in
-            weakSelf?.modalNavigationController = navi
-        })
-    }
-    
+  
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         //调整frame。你可以使用任何其它布局方式保证播放视图是你期望的大小
-        let count = self.childViewControllers.count
+        let count = childViewControllers.count
         // 让按钮宽一点点，能够解决手指触摸的容错问题
-        let width: CGFloat = self.tabBar.bounds.size.width / CGFloat(count) - 1
-        if self.traitCollection.verticalSizeClass == .compact {
-            self.composedButton.frame = self.tabBar.bounds.insetBy(dx: width, dy: 0)
+        let width: CGFloat = tabBar.bounds.size.width / CGFloat(count) - 1
+        if traitCollection.verticalSizeClass == .compact {
+            composedButton.frame = tabBar.bounds.insetBy(dx: width, dy: 0)
         }
         else {
-            self.composedButton.frame = self.tabBar.bounds.insetBy(dx: width, dy: 0)
+            composedButton.frame = tabBar.bounds.insetBy(dx: width, dy: 0)
         }
     }
+  
+}
 
-    
-    //MARK: 转屏
-    override var shouldAutorotate: Bool{
-        return false
-    }
-    
-    func tabBarControllerSupportedInterfaceOrientations(_ tabBarController: UITabBarController) -> UIInterfaceOrientationMask {
-        return self.selectedViewController!.supportedInterfaceOrientations
-    }
-    
-    func tabBarControllerPreferredInterfaceOrientationForPresentation(_ tabBarController: UITabBarController) -> UIInterfaceOrientation {
-        return self.selectedViewController!.preferredInterfaceOrientationForPresentation
-    }
-    
+
+// MARK: - ACTION
+extension MainViewController {
+  /**
+   *  转场出 加号 视图控制器
+   */
+  @objc fileprivate func clickComposedButton() {
+    //
+    let composeViewController = PostAffairController()
+    let navi = ShowNavigationController(rootViewController: composeViewController)
+    navi.modalPresentationStyle = .custom
+  
+    present(navi, animated: true, completion: { [weak self]() -> Void in
+      self?.modalNavigationController = navi
+    })
+  }
+
+}
+
+//MARK: 转屏
+extension MainViewController {
+  override var shouldAutorotate: Bool{
+    return false
+  }
+  
+  func tabBarControllerSupportedInterfaceOrientations(_ tabBarController: UITabBarController) -> UIInterfaceOrientationMask {
+    return self.selectedViewController!.supportedInterfaceOrientations
+  }
+  
+  func tabBarControllerPreferredInterfaceOrientationForPresentation(_ tabBarController: UITabBarController) -> UIInterfaceOrientation {
+    return self.selectedViewController!.preferredInterfaceOrientationForPresentation
+  }
 }
