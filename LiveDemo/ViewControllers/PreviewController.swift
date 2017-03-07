@@ -1,14 +1,5 @@
-
 //
-//  PreviewAutoController.swift
-//  LiveDemo
-//
-//  Created by manajay on 2017/1/5.
-//  Copyright © 2017年 manajay. All rights reserved.
-//
-
-//
-//  PreviewAutoController.swift
+//  PreviewController.swift
 //  LiveDemo
 //
 //  Created by manajay on 2017/1/5.
@@ -25,7 +16,6 @@ import libksygpulive
 import libksygpulive.KSYGPUStreamerKit
 import SnapKit
 
-
 private let topMargin:CGFloat = 20
 
 private let topBtnMargin:CGFloat = 30
@@ -35,28 +25,54 @@ private let bottomVMargin:CGFloat = 10
 
 private let closeButtonWidth:CGFloat = 40
 
-class PreviewAutoController: UIViewController {
+class PreviewController: UIViewController {
   
   var orientation:ScreenOrientation = .portrait
-  var address: String = "rtmp://115.29.150.217/live/mobile"
+  var streamQuality:StreamQuality
+  fileprivate var allowRotate = false
+
+  var address: String = "rtmp://xxxxxx/live/mobile"
+
+  init(streamQuality:StreamQuality = .normal,
+       orientation:ScreenOrientation = .landscapeRight) {
+    self.streamQuality = streamQuality
+    self.orientation = orientation
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   
   fileprivate lazy var kit: KSYGPUStreamerKit = {
     let kit = KSYGPUStreamerKit()
     
-    kit.videoFPS = 15
+    kit.videoFPS = 18
     kit.streamerBase.videoCodec = KSYVideoCodec.AUTO
-    kit.streamerBase.videoInitBitrate =  800
-    kit.streamerBase.videoMaxBitrate  = 1000
-    kit.streamerBase.videoMinBitrate  =  200
-    kit.streamerBase.audiokBPS        =   48
+    kit.streamerBase.videoInitBitrate =  self.streamQuality.rawValue
+    kit.streamerBase.videoMaxBitrate  = self.streamQuality.videoMaxBitrate //1000
+    kit.streamerBase.videoMinBitrate  = self.streamQuality.videoMinBitrate // 200
+    kit.streamerBase.audiokBPS        =   self.streamQuality.audiokBPS // 48
+    kit.streamerBase.maxKeyInterval        =   self.streamQuality.maxKeyInterval //  关键帧
     kit.streamerBase.shouldEnableKSYStatModule = true
     kit.setupFilter(self.filter)
-    
+    /**
+     @abstract   用户定义的视频 **推流** 分辨率
+     @discussion 有效范围: 宽度[160, 1280] 高度[ 90,  720], 超出范围会取边界有效值
+     @discussion 其他与previewDimension限定一致,
+     @discussion 当与previewDimension不一致时, 同样先裁剪到相同宽高比, 再进行缩放
+     @discussion 默认值为(640, 360)
+     */
+    kit.streamDimension = self.streamQuality.streamDimension
     kit.cameraPosition  = .back
-    kit.streamerBase.videoFPS = 20
-    kit.maxAutoRetry  = 10
+    //    kit.maxAutoRetry = 10
+    kit.streamerBase.videoFPS = 18
     kit.streamerBase.logBlock  = { (msg) in
-      print(msg)
+      if let msg = msg {
+        #if DEBUG
+        #endif
+      }
     }
     
     kit.videoProcessingCallback = {
@@ -76,11 +92,9 @@ class PreviewAutoController: UIViewController {
   // 视图
   fileprivate lazy var containerView: UIView = {
     let containerView = UIView(frame: CGRect.zero)
-    //    containerView.backgroundColor = UIColor.clear
     containerView.layer.contentsRect = CGRect(x: 0, y: 0, width: 0.8, height: 1)
     let image = UIImage(named: "compose_background")?.cgImage
     containerView.layer.contents = image
-    
     containerView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleHeight]
     return containerView
   }()
@@ -148,7 +162,7 @@ class PreviewAutoController: UIViewController {
   fileprivate var titleButton: UIButton = {
     let button = UIButton(frame: CGRect.zero)
     button.setTitleColor(UIColor.white, for:UIControlState())
-    button.setImage(#imageLiteral(resourceName: "leftArrow"), for: .normal)
+    button.setImage(#imageLiteral(resourceName: "bleft"), for: .normal)
     button.setTitle(" 在线直播", for: .normal)
     button.titleLabel!.font = UIFont.systemFont(ofSize: 18)
     return button
@@ -168,18 +182,15 @@ class PreviewAutoController: UIViewController {
 
 
 // MARK: - View Life Circle
-extension PreviewAutoController {
+extension PreviewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    initObservers()
-    
+    addObservers()
+    rotate(to: orientation.preferredInterfaceOrientationForPresentation)
     setupPreview()
     addTargetAction()
-    
-    kit.videoFPS = 15
-    onCapture(orientation)
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -194,70 +205,20 @@ extension PreviewAutoController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    navigationController?.setNavigationBarHidden(false, animated: false)
+//    navigationController?.setNavigationBarHidden(false, animated: false)
     UIApplication.shared.isIdleTimerDisabled = false
-    orientationTo(.portrait)
   }
   
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    removeObs()
     kit.stopPreview()
   }
   
 }
 
 
-// MARK: - 屏幕旋转
-extension PreviewAutoController {
-  
-  fileprivate func onCapture(_ orientation: ScreenOrientation) {
-    
-    if (kit.vCapDev.isRunning == false){
-      kit.videoOrientation = UIApplication.shared.statusBarOrientation
-      kit.startPreview(containerView)
-    }
-    else {
-      kit.stopPreview()
-    }
-    
-  }
-  
-  fileprivate func orientationTo(_ orientation: UIInterfaceOrientation) {
-    let orientationValue = orientation.rawValue
-    UIDevice.current.setValue(orientationValue, forKey: "orientation")
-  }
-  
-  func canRotate() -> Void {
-    
-  }
-  
-  override var shouldAutorotate: Bool {
-    return true
-  }
-  
-  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-    return .allButUpsideDown
-  }
-  
-  override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
-    return .portrait
-  }
-  
-  
-  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-    Log(message: "size: \(size) coordinator: \(coordinator)")
-    
-    kit.rotatePreview(to: UIApplication.shared.statusBarOrientation)
-    
-    super.viewWillTransition(to: size, with: coordinator)
-  }
-  
-}
-
-
 // MARK: - Setup UI
-extension PreviewAutoController {
+extension PreviewController {
   
   fileprivate func setupPreview() {
     
@@ -344,9 +305,9 @@ extension PreviewAutoController {
 
 
 // MARK: - 初始化观察者
-extension PreviewAutoController {
+extension PreviewController {
   
-  fileprivate func initObservers() {
+  fileprivate func addObservers() {
     
     NotificationCenter.default.addObserver(self, selector: #selector(onCaptureStateChange(_:)), name: NSNotification.Name.KSYCaptureStateDidChange, object: nil)
     //    NotificationCenter.default.addObserver(self, selector: #selector(onBgmPlayerStateChange(_:)), name: NSNotification.Name.KSYAudioStateDidChange, object: nil)
@@ -416,6 +377,7 @@ extension PreviewAutoController {
     }
   }
   
+//WARNING: 这里的 kit.maxAutoRetry 是不是处理错了
   fileprivate func tryReconnect() {
     
     if kit.maxAutoRetry > 0 {
@@ -444,28 +406,19 @@ extension PreviewAutoController {
     // kit.bgmPlayer
   }
   @objc fileprivate func onCaptureStateChange(_ notification:Notification) {
-    Log(message: notification)
-    switch orientation {
-    case .landscapeRight:
-      orientationTo(.landscapeRight)
-    default:
-      orientationTo(.portrait)
-    }
-    
-    // 解决横屏的时候出现没有画面的bug,本质是preview的size为zero引起的.
-    if kit.vCapDev.isRunning {
-      kit.preview.snp.makeConstraints({ (make) in
+    if kit.vCapDev.isRunning  {
+      guard let _ = kit.preview.superview  else { return } //  有时候会崩溃
+      kit.preview.snp.remakeConstraints({ (make) in
         make.edges.equalToSuperview()
       })
     }
-    
   }
   
   
 }
 
 // MARK: - Gesture
-extension PreviewAutoController {
+extension PreviewController {
   
   //设置摄像头对焦位置
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -553,7 +506,7 @@ extension PreviewAutoController {
 }
 
 // MARK: - Action
-extension PreviewAutoController {
+extension PreviewController {
   
   fileprivate func addTargetAction() {
     // action buttons
@@ -569,16 +522,8 @@ extension PreviewAutoController {
   }
   
   @objc fileprivate func didTappedTitleLiveButton(_ button: UIButton) -> Void {
-    self.dismiss()
+    dismiss(animated: true)
   }
-  
-  fileprivate func dismiss() {
-    
-    dismiss(animated: true) {
-      self.orientationTo(.portrait)
-    }
-  }
-  
   
   // 开始直播
   @objc fileprivate  func didTappedStartLiveButton(_ button: UIButton) -> Void {
@@ -592,7 +537,7 @@ extension PreviewAutoController {
     if let url = URL(string: address) {
       kit.streamerBase.startStream(url);
     } else {
-      
+
     }
     
   }
@@ -629,3 +574,68 @@ extension PreviewAutoController {
   
 }
 
+func Log<T>(message : T, file : String = #file, lineNumber : Int = #line) {
+  
+  #if DEBUG
+    let fileName = (file as NSString).lastPathComponent
+    let printMessage = "[\(fileName):line:\(lineNumber)]- \(message)"
+    print(printMessage)
+  #endif
+  
+  /**
+   // Now let’s log!
+   log.verbose("not so important")  // prio 1, VERBOSE in silver
+   log.debug("something to debug")  // prio 2, DEBUG in green
+   log.info("a nice information")   // prio 3, INFO in blue
+   log.warning("oh no, that won’t be good")  // prio 4, WARNING in yellow
+   log.error("ouch, an error did occur!")  // prio 5, ERROR in red
+   */
+}
+
+// MARK: - Device Rotation
+extension PreviewController {
+  
+  
+  fileprivate func preparePreview() {
+    if (kit.vCapDev.isRunning == false){ //没有开始直播
+      kit.videoOrientation = orientation.preferredInterfaceOrientationForPresentation
+      kit.startPreview(containerView)
+    }
+    else {
+      kit.stopPreview()
+    }
+  }
+  
+  func canRotate() -> Void {}
+  
+  override var shouldAutorotate: Bool {
+    return allowRotate
+  }
+  
+  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    return orientation.supportedInterfaceOrientations
+  }
+  
+  override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+    return orientation.preferredInterfaceOrientationForPresentation
+  }
+  
+  // 横屏还是有点问题
+  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    super.viewWillTransition(to: size, with: coordinator)
+    kit.rotatePreview(to: orientation.preferredInterfaceOrientationForPresentation)
+  }
+  
+  override var prefersStatusBarHidden: Bool{
+    return false
+  }
+  
+  // 当调用 rotate(to: UIInterfaceOrientation.landscapeLeft) 时，先允许自动旋转，然后进行屏幕旋转。再设置为不允许自动旋转。
+  fileprivate func rotate(to orientation: UIInterfaceOrientation) {
+    UIDevice.rotationDevice(before: {
+      allowRotate = true
+    }, after: {
+      allowRotate = false
+    }, to: orientation)
+  }
+}

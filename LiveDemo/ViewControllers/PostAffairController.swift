@@ -16,6 +16,19 @@ private let buttonMargin: CGFloat = 50 //按钮间距
 
 class PostAffairController: UIViewController {
   
+  fileprivate let group = DispatchGroup()
+  fileprivate var isVideoGranted: Bool = false
+  fileprivate var isAudioGranted: Bool = false
+  
+  fileprivate lazy var streamURLStringTextField: UITextField = {
+    let textField = UITextField(frame: .zero)
+    let leftLabel = UILabel()
+    leftLabel.text = "请输入推流地址"
+    leftLabel.frame = CGRect(origin: .zero, size: CGSize(width: 60, height: 40))
+    textField.leftView = leftLabel
+    return textField
+  }()
+  
   /// 按钮
   fileprivate lazy var portraitButton: UIButton = {
     let button = UIButton(type: UIButtonType.custom)
@@ -52,57 +65,75 @@ class PostAffairController: UIViewController {
 
 extension PostAffairController {
 
-  
-  @objc fileprivate func portraitLive() {
-    
-    DeviceHelper.requestAccessForAudio { (isGranted, msg) in
-      guard isGranted else {
-        return
-      }
-    }
-    
-    DeviceHelper.requestAccessForVideo { (isGranted, msg) in
-      guard isGranted else {
-        return
-      }
-    }
-    
-    let preVC = PreviewController()
-    preVC.orientation = .portrait
-    self.present(preVC, animated: true, completion: nil)
-  }
-  
-  
-  @objc fileprivate func landscapeLive() {
-    
-    DeviceHelper.requestAccessForAudio { (isGranted, msg) in
-      guard isGranted else {
-        return
-      }
-    }
-    
-    DeviceHelper.requestAccessForVideo { (isGranted, msg) in
-      guard isGranted else {
-        return
-      }
-    }
-    
-    let preVC = PreviewController()
-    preVC.orientation = .landscapeRight
-    self.present(preVC, animated: true, completion: nil)
-  }
-  
   @objc fileprivate func dismissController() {
-    
-   self.dismiss(animated: true, completion: nil)
-    
-  }//
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      DispatchQueue.main.async {
+        self.dismiss(animated: true, completion: {
+          if let delegate = UIApplication.shared.delegate as? AppDelegate ,let main = delegate.window?.rootViewController as? MainViewController {
+            main.modalNavigationController = nil
+          }
+        })
+      }
+    }
+  }//end func
   
 }
 
+// MARK: - Modal StreamViewController
+extension PostAffairController: AVCaptureAccessProtocal {
+  
+  @objc fileprivate func portraitLive() {
+    submit(with: .portrait)
+  }
+  
+  @objc fileprivate func landscapeLive() {
+    submit(with: .landscapeRight)
+  }
+  
+  
+  fileprivate func submit(with orientation: ScreenOrientation) {
+    
+    group.enter()
+    requestAccessForAudio()
+    group.enter()
+    requestAccessForVideo()
+    group.notify(queue: DispatchQueue.main) {
+      guard self.isAudioGranted && self.isVideoGranted else {
+        return
+      }
+      //完成回调
+      let previewController         = PreviewController(orientation: orientation)
+      let streamURLString = self.streamURLStringTextField.text
+      previewController.address = streamURLString ?? ""
+      self.present(previewController, animated: true, completion: nil)
+    }
+    
+  }
+  
+  func requestAccessForAudio(authorizationStatus: CaptureAccessStatus, statusMesasge: String) {
+    isAudioGranted = (authorizationStatus == .authorized)
+    group.leave()
+    guard authorizationStatus == .authorized else {
+//      MSProgressView.show(message: "请获取音频的授权后再次尝试")
+      return
+    }
+  }
+  
+  func requestAccessForVideo(authorizationStatus: CaptureAccessStatus, statusMesasge: String) {
+    isVideoGranted = (authorizationStatus == .authorized)
+    group.leave()
+    guard authorizationStatus == .authorized else {
+      
+      return
+    }
+  }
+  
+}
+
+
+// MARK: - Orientation
 extension PostAffairController {
 
-  
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
   }
@@ -119,10 +150,6 @@ extension PostAffairController {
     return .portrait
   }
   
-  fileprivate func orientationTo(_ orientation: UIInterfaceOrientation) {
-    let orientationValue = orientation.rawValue
-    UIDevice.current.setValue(orientationValue, forKey: "orientation")
-  }
 }
 
 extension PostAffairController {
@@ -136,7 +163,8 @@ extension PostAffairController {
     view.addSubview(portraitButton)
     view.addSubview(landscapeButton)
     view.addSubview(dismissPostButton)
-
+    view.addSubview(streamURLStringTextField)
+    
     portraitButton.snp.makeConstraints { (make) in
       make.centerY.equalTo(self.view).offset(-buttonMargin - buttonHeight * 0.5)
       make.centerX.equalToSuperview()
@@ -147,6 +175,13 @@ extension PostAffairController {
     landscapeButton.snp.makeConstraints { (make) in
       make.center.equalToSuperview()
       make.height.width.equalTo(portraitButton)
+    }
+    
+    streamURLStringTextField.snp.makeConstraints { (make) in
+      make.centerY.equalTo(self.view).offset( -buttonMargin - buttonHeight * 1.5 )
+      make.centerX.equalToSuperview()
+      make.width.equalTo(buttonWidth)
+      make.height.equalTo(buttonHeight)
     }
     
     dismissPostButton.snp.makeConstraints { (make) in
