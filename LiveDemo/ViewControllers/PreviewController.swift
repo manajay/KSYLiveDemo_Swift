@@ -57,29 +57,16 @@ class PreviewController: UIViewController {
     kit.streamerBase.maxKeyInterval        =   self.streamQuality.maxKeyInterval //  关键帧
     kit.streamerBase.shouldEnableKSYStatModule = true
     kit.setupFilter(self.filter)
-    /**
-     @abstract   用户定义的视频 **推流** 分辨率
-     @discussion 有效范围: 宽度[160, 1280] 高度[ 90,  720], 超出范围会取边界有效值
-     @discussion 其他与previewDimension限定一致,
-     @discussion 当与previewDimension不一致时, 同样先裁剪到相同宽高比, 再进行缩放
-     @discussion 默认值为(640, 360)
-     */
     kit.streamDimension = self.streamQuality.streamDimension
     kit.cameraPosition  = .back
     //    kit.maxAutoRetry = 10
     kit.streamerBase.videoFPS = 18
     kit.streamerBase.logBlock  = { (msg) in
       if let msg = msg {
+        self.writeToLocalFile(with: msg)
         #if DEBUG
-          self.writeToLocalFile(with: msg)
         #endif
       }
-    }
-    
-    kit.videoProcessingCallback = {
-      (buf) in
-      // 在此处添加自定义图像处理, 直接修改buf中的图像数据会传递到观众端
-      // 或复制图像数据之后再做其他处理, 则观众端仍然看到处理前的图像
     }
     
     return kit
@@ -124,23 +111,14 @@ class PreviewController: UIViewController {
     return view
   }()
   
-  fileprivate lazy var recordTimer:Timer = {
-    let timer = Timer.every(1.second, {
-      if self.startLiveButton.isSelected == true && self.recording {
-        self.recordInterval += 1
-      }
-    })
-    
-    return timer
-  }()
-  
+  fileprivate var recordTimer:Timer?
+ 
   fileprivate var recordInterval:TimeInterval = 0{
     didSet{
       //处理日期
       Log(message: "记录的时间:\(recordInterval)")
       let date = Date(timeIntervalSince1970: recordInterval)
-      let dateFormat = DateFormatter()
-      dateFormat.timeZone = TimeZone(secondsFromGMT: 0)
+      let dateFormat = DateFormatHelp.share
       dateFormat.dateFormat = "HH:mm:ss"
       
       let dateString = dateFormat.string(from: date)
@@ -149,7 +127,6 @@ class PreviewController: UIViewController {
       DispatchQueue.main.async(execute: {
         self.recordLabel.text = "REC  " + dateString
       })
-      
       
     }
   }
@@ -219,7 +196,7 @@ class PreviewController: UIViewController {
   }()
   
   deinit {
-    removeObs()
+    NotificationCenter.default.removeObserver(self)
   }
 }
 
@@ -231,11 +208,10 @@ extension PreviewController {
     super.viewDidLoad()
     
     addObservers()
-    rotate(to: orientation.preferredInterfaceOrientationForPresentation)
     preparePreview()
     setupPreview()
     addTargetAction()
-    activeRecordTimer()
+    addRecordTimer()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -250,13 +226,11 @@ extension PreviewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-//    navigationController?.setNavigationBarHidden(false, animated: false)
     UIApplication.shared.isIdleTimerDisabled = false
   }
   
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    kit.stopPreview()
   }
   
 }
@@ -350,19 +324,12 @@ extension PreviewController {
   fileprivate func addObservers() {
     
     NotificationCenter.default.addObserver(self, selector: #selector(onCaptureStateChange(_:)), name: NSNotification.Name.KSYCaptureStateDidChange, object: nil)
-    //    NotificationCenter.default.addObserver(self, selector: #selector(onBgmPlayerStateChange(_:)), name: NSNotification.Name.KSYAudioStateDidChange, object: nil)
-    
     NotificationCenter.default.addObserver(self, selector: #selector(onStreamStateChange(_:)), name: NSNotification.Name.KSYStreamStateDidChange, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(onNetStateEvent(_:)), name: NSNotification.Name.KSYNetStateEvent, object: nil)
-    
     
     NotificationCenter.default.addObserver(self, selector: #selector(enterBg(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(becameActive(_:)), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     
-  }
-  
-  fileprivate func removeObs() {
-    NotificationCenter.default.removeObserver(self)
   }
   
   @objc fileprivate func onNetStateEvent(_ notification:Notification) {
@@ -411,7 +378,6 @@ extension PreviewController {
     case .AV_SYNC_ERROR:
       tryReconnect()
     case .CODEC_OPEN_FAILED:
-      kit.streamerBase.videoCodec = KSYVideoCodec.X264
       tryReconnect()
     default: break
     }
@@ -420,11 +386,11 @@ extension PreviewController {
 //WARNING: 这里的 kit.maxAutoRetry 是不是处理错了
   fileprivate func tryReconnect() {
     
-    if kit.maxAutoRetry > 0 {
-      return
-    }
+//    if kit.maxAutoRetry > 0 {
+//      return
+//    }
     
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
       if let url = URL(string: self.address) {
         self.kit.streamerBase.startStream(url)
       }
@@ -442,15 +408,23 @@ extension PreviewController {
     kit.appBecomeActive()
   }
   
-  @objc fileprivate func onBgmPlayerStateChange(_ notification:Notification) { // 背景播放音乐
-    // kit.bgmPlayer
-  }
   @objc fileprivate func onCaptureStateChange(_ notification:Notification) {
     if kit.vCapDev.isRunning  {
       guard let _ = kit.preview.superview  else { return } //  有时候会崩溃
       kit.preview.snp.remakeConstraints({ (make) in
         make.edges.equalToSuperview()
       })
+      kit.rotatePreview(to: orientation.preferredInterfaceOrientationForPresentation)
+    }
+  }
+  
+  fileprivate func preparePreview() {
+    if (kit.vCapDev.isRunning == false){ //没有开始直播
+      kit.videoOrientation = orientation.preferredInterfaceOrientationForPresentation
+      kit.startPreview(containerView)
+    }
+    else {
+      kit.stopPreview()
     }
   }
   
@@ -466,14 +440,8 @@ extension PreviewController {
     guard let touch = touches.first else {
       return
     }
-    //当前触摸点再view上的点
+    
     let current = touch.location(in: self.view);
-    //    触摸点再view上之前的位置
-    //    let pointOfBefor = touch?.previousLocation(in: self.view);
-    //触摸点，是否在当前视图上
-    //    let isInView = self.view.point(inside: pointInView!, with: event);
-    //点，再某个视图上的坐标
-    //    let viewPoint = self.view.convert(pointOfBefor!, to: self.view);
     let point = convertToPointOfInterest(from: current)
     
     kit.exposure(at: point)
@@ -610,15 +578,40 @@ extension PreviewController {
     } else {}
   }
   
-  /// 激活记录推流时间的定时器
-  fileprivate func activeRecordTimer() {
-    recordTimer.start(runLoop: .current, modes: .commonModes)
-  }
-  
 }
 
+
+// MARK: - 计算与写入
 extension PreviewController {
 
+  func updateStreamState(droppedVideoFrames: Double , encodedFrames: Double) -> String {
+    
+    if encodedFrames == 0 {
+      return "| 流畅度: \(0)%"
+    }
+    
+    var percentage = 1 - droppedVideoFrames / encodedFrames
+    
+    if percentage == Double.nan {
+      percentage = 0.0
+    } else if percentage == Double.infinity {
+      percentage = 1.0
+    }
+    
+    if percentage <= 0.0 {
+      percentage = 0.0
+    } else if percentage >= 1.0 {
+      percentage = 1.0
+    }
+    
+    
+    ////Double value cannot be converted to Int because it is either infinite or NaN
+    // 崩溃在这里
+    let percentageInt =  Int(percentage * 100)
+    return "| 流畅度: \(percentageInt)%"
+  }
+
+  
   fileprivate func writeToLocalFile(with data: Data) {
     FileManager.valid(filePath: kStreamInfoFolder)
     let streamInfoPath = (kStreamInfoFolder as NSString).appendingPathComponent("streamInfo.txt")
@@ -642,39 +635,23 @@ extension PreviewController {
     }
   }
 
-}
-
-func Log<T>(message : T, file : String = #file, lineNumber : Int = #line) {
+  /// 激活记录推流时间的定时器
+  fileprivate func addRecordTimer() {
+    recordTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(onTimer(_:)), userInfo: nil, repeats: true)
+  }
   
-  #if DEBUG
-    let fileName = (file as NSString).lastPathComponent
-    let printMessage = "[\(fileName):line:\(lineNumber)]- \(message)"
-    print(printMessage)
-  #endif
+  @objc private func onTimer(_ timer: Timer) {
+    guard let streamerKit = streamerKit,streamerKit.streamerBase.streamState == .connected, recording == true ,startLiveButton.isSelected == true else { return }
+    /// 防崩溃处理
+    
+    fluentPercentageLabel.text = updateStreamState(droppedVideoFrames: Double(streamerKit.streamerBase.droppedVideoFrames), encodedFrames: Double(streamerKit.streamerBase.encodedFrames))
+    recordInterval += 1
+  }
   
-  /**
-   // Now let’s log!
-   log.verbose("not so important")  // prio 1, VERBOSE in silver
-   log.debug("something to debug")  // prio 2, DEBUG in green
-   log.info("a nice information")   // prio 3, INFO in blue
-   log.warning("oh no, that won’t be good")  // prio 4, WARNING in yellow
-   log.error("ouch, an error did occur!")  // prio 5, ERROR in red
-   */
 }
 
 // MARK: - Device Rotation
 extension PreviewController {
-  
-  
-  fileprivate func preparePreview() {
-    if (kit.vCapDev.isRunning == false){ //没有开始直播
-      kit.videoOrientation = orientation.preferredInterfaceOrientationForPresentation
-      kit.startPreview(containerView)
-    }
-    else {
-      kit.stopPreview()
-    }
-  }
   
   func canRotate() -> Void {}
   
@@ -723,5 +700,14 @@ class DateFormatHelp:DateFormatter {
     
     return shareInstance
   }
+}
+
+func Log<T>(message : T, file : String = #file, lineNumber : Int = #line) {
+  
+  #if DEBUG
+    let fileName = (file as NSString).lastPathComponent
+    let printMessage = "[\(fileName):line:\(lineNumber)]- \(message)"
+    print(printMessage)
+  #endif
 }
 
