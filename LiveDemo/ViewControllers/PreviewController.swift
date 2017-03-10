@@ -69,6 +69,11 @@ class PreviewController: UIViewController {
       }
     }
     
+    
+    kit.vCapDev.interruptCallback = { (interrupt) in
+      self.writeToLocalFile(with: interrupt ? "被打断, 采集暂停": "恢复采集")
+    }
+    
     return kit
   }()
   
@@ -196,7 +201,10 @@ class PreviewController: UIViewController {
   }()
   
   deinit {
+    streamerKit.streamerBase.stopStream()
     NotificationCenter.default.removeObserver(self)
+    recordTimer?.invalidate()
+    recordTimer = nil
   }
 }
 
@@ -208,8 +216,8 @@ extension PreviewController {
     super.viewDidLoad()
     
     addObservers()
-    preparePreview()
     setupPreview()
+    preparePreview()
     addTargetAction()
     addRecordTimer()
   }
@@ -227,10 +235,6 @@ extension PreviewController {
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     UIApplication.shared.isIdleTimerDisabled = false
-  }
-  
-  override func viewDidDisappear(_ animated: Bool) {
-    super.viewDidDisappear(animated)
   }
   
 }
@@ -381,6 +385,7 @@ extension PreviewController {
       tryReconnect()
     default: break
     }
+    self.writeToLocalFile(with: "网络推流错误码: \(error.rawValue)")
   }
   
 //WARNING: 这里的 kit.maxAutoRetry 是不是处理错了
@@ -409,18 +414,25 @@ extension PreviewController {
   }
   
   @objc fileprivate func onCaptureStateChange(_ notification:Notification) {
+    onViewRotate()
+  }
+  
+  /// 设备旋转时 更改推流的预览方向
+  fileprivate func onViewRotate() {
+    
     if kit.vCapDev.isRunning  {
-      guard let _ = kit.preview.superview  else { return } //  有时候会崩溃
+      guard let _ = kit.preview.superview  else { return }
       kit.preview.snp.remakeConstraints({ (make) in
         make.edges.equalToSuperview()
       })
-      kit.rotatePreview(to: orientation.preferredInterfaceOrientationForPresentation)
     }
+    kit.rotatePreview(to: orientation.preferredInterfaceOrientationForPresentation)
   }
   
   fileprivate func preparePreview() {
     if (kit.vCapDev.isRunning == false){ //没有开始直播
       kit.videoOrientation = orientation.preferredInterfaceOrientationForPresentation
+      kit.rotatePreview(to: orientation.preferredInterfaceOrientationForPresentation)
       kit.startPreview(containerView)
     }
     else {
