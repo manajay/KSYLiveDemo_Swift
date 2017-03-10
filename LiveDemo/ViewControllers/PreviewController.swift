@@ -102,6 +102,16 @@ class PreviewController: UIViewController {
   }()
   
   
+  // 直播流程百分比Label
+  fileprivate var fluentPercentageLabel: UILabel = {
+    let fluentPercentageLabel = UILabel(frame: CGRect.zero)
+    fluentPercentageLabel.text = ""
+    fluentPercentageLabel.textColor = UIColor.white
+    fluentPercentageLabel.font = UIFont.systemFont(ofSize: 14.0)
+    fluentPercentageLabel.textAlignment = .center
+    return fluentPercentageLabel
+  }()
+  
   /// 倒计时的label
   fileprivate var recordLabel: UILabel = {
     let label = UILabel(frame: CGRect.zero)
@@ -124,6 +134,7 @@ class PreviewController: UIViewController {
       Log(message: "记录的时间:\(recordInterval)")
       let date = Date(timeIntervalSince1970: recordInterval)
       let dateFormat = DateFormatHelp.share
+      dateFormat.timeZone = TimeZone(secondsFromGMT: 0)
       dateFormat.dateFormat = "HH:mm:ss"
       
       let dateString = dateFormat.string(from: date)
@@ -201,7 +212,7 @@ class PreviewController: UIViewController {
   }()
   
   deinit {
-    streamerKit.streamerBase.stopStream()
+    kit.streamerBase.stopStream()
     NotificationCenter.default.removeObserver(self)
     recordTimer?.invalidate()
     recordTimer = nil
@@ -256,7 +267,8 @@ extension PreviewController {
     containerView.addSubview(titleButton)
     containerView.addSubview(recordIcon)
     containerView.addSubview(recordLabel)
-    
+    containerView.addSubview(fluentPercentageLabel)
+
     containerView.addSubview(lightButton)
     containerView.addSubview(foucsCursor)
     
@@ -285,6 +297,11 @@ extension PreviewController {
       make.left.equalTo(recordIcon)
       make.height.equalTo(40)
       make.width.equalTo(80)
+    }
+    
+    fluentPercentageLabel.snp.makeConstraints { (make) in
+      make.centerY.equalTo(recordLabel)
+      make.left.equalTo(recordLabel.snp.right).offset(5)
     }
     
     startLiveButton.snp.makeConstraints { (make) in
@@ -542,7 +559,7 @@ extension PreviewController {
   }
   
   @objc fileprivate func didTappedTitleLiveButton(_ button: UIButton) -> Void {
-    recordTimer.invalidate()
+    recordTimer?.invalidate()
     dismiss(animated: true)
   }
   
@@ -653,10 +670,10 @@ extension PreviewController {
   }
   
   @objc private func onTimer(_ timer: Timer) {
-    guard let streamerKit = streamerKit,streamerKit.streamerBase.streamState == .connected, recording == true ,startLiveButton.isSelected == true else { return }
+    guard kit.streamerBase.streamState == .connected, recording == true ,startLiveButton.isSelected == true else { return }
     /// 防崩溃处理
     
-    fluentPercentageLabel.text = updateStreamState(droppedVideoFrames: Double(streamerKit.streamerBase.droppedVideoFrames), encodedFrames: Double(streamerKit.streamerBase.encodedFrames))
+    fluentPercentageLabel.text = updateStreamState(droppedVideoFrames: Double(kit.streamerBase.droppedVideoFrames), encodedFrames: Double(kit.streamerBase.encodedFrames))
     recordInterval += 1
   }
   
