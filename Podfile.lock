@@ -1,17 +1,17 @@
 PODS:
   - GPUImage (0.1.7)
-  - libksygpulive/base (2.0.2)
-  - libksygpulive/libksygpulive (2.0.2):
+  - libksygpulive/base (2.0.1)
+  - libksygpulive/libksygpulive (2.0.1):
     - GPUImage
     - libksygpulive/base
     - libksygpulive/mediacodec
     - libksygpulive/mediacore_enc_base
     - libksygpulive/mediacore_enc_lite
     - libksygpulive/yuv
-  - libksygpulive/mediacodec (2.0.2)
-  - libksygpulive/mediacore_enc_base (2.0.2)
-  - libksygpulive/mediacore_enc_lite (2.0.2)
-  - libksygpulive/yuv (2.0.2)
+  - libksygpulive/mediacodec (2.0.1)
+  - libksygpulive/mediacore_enc_base (2.0.1)
+  - libksygpulive/mediacore_enc_lite (2.0.1)
+  - libksygpulive/yuv (2.0.1)
   - SnapKit (3.2.0)
 
 DEPENDENCIES:
@@ -20,7 +20,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
-  libksygpulive: c4b3e8c578c83e42dbe1dcebd9947be202135e30
+  libksygpulive: 50483c4a6eba8dadc36f88f43cba53c6387459d6
   SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
 
 PODFILE CHECKSUM: '03691d2a6a1ba71428ba8d77597b42914cee8f41'

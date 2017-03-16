@@ -16,8 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
-    setupWeChatSDK()
-    
     window = UIWindow.init(frame: UIScreen.main.bounds)
     let main =  MainViewController()
     window?.rootViewController = main
@@ -26,55 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return true
   }
 
-}
-
-
-// MARK: -  分享初始化
-extension AppDelegate {
-  
-  //************************* 分享 ***********************//
-  fileprivate func setupWeChatSDK() -> () {
-    WXApi.registerApp("wx8611177d8458e91c")
-  }
-  
-}
-
-
-// MARK: - 处理应用跳转
-extension AppDelegate :WXApiDelegate{
-  
-  private func handleURL(url:URL) -> Bool {
-    return WXApi.handleOpen(url, delegate: self)
-  }
-  
-  @objc(application:handleOpenURL:) func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
-    return handleURL(url: url)
-  }
-  
-  @objc(application:openURL:options:) func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-    return handleURL(url: url)
-  }
-  
-  @objc(application:openURL:sourceApplication:annotation:) func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-    return handleURL(url: url)
-  }
-  
-  
-  func onResp(_ resp: BaseResp!) {
-    
-    debugPrint("开始APP之间的回调")
-    
-    switch currentViewController(with: window?.rootViewController).self {
-    case is PreviewController:
-      NotificationCenter.default.post(name: AppNotification.kShareLiveInfoEvent, object: PreviewController.self, userInfo: ["resp": resp])
-    default: break
-      
-    }
-    
-    debugPrint("结束APP之间的回调")
-    
-  }
-  
 }
 
 // MARK: - 横竖屏旋转
