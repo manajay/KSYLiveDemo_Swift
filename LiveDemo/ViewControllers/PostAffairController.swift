@@ -104,6 +104,9 @@ extension PostAffairController: AVCaptureAccessProtocal {
       let previewController         = PreviewController(orientation: orientation)
       let streamURLString = self.streamURLStringTextField.text
       previewController.address = streamURLString ?? ""
+      let previewViewModel = PreviewViewModel()
+      previewViewModel.streamURL = URL(string: streamURLString ?? "")
+      previewController.viewModel = previewViewModel
       self.present(previewController, animated: true, completion: nil)
     }
     

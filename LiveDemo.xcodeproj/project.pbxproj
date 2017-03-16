@@ -9,6 +9,29 @@
 /* Begin PBXBuildFile section */
 		AE1836E71E1DEEA60011F11F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE1836E61E1DEEA60011F11F /* Assets.xcassets */; };
 		AE1836EA1E1DEEA60011F11F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE1836E81E1DEEA60011F11F /* LaunchScreen.storyboard */; };
+		AEE23E561E7A166500D37D31 /* PreviewControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E521E7A166500D37D31 /* PreviewControlView.swift */; };
+		AEE23E571E7A166500D37D31 /* PreviewNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E531E7A166500D37D31 /* PreviewNavigationView.swift */; };
+		AEE23E581E7A166500D37D31 /* PreviewStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E541E7A166500D37D31 /* PreviewStatusView.swift */; };
+		AEE23E5A1E7A167C00D37D31 /* PreviewUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E591E7A167C00D37D31 /* PreviewUIController.swift */; };
+		AEE23E5C1E7A173500D37D31 /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E5B1E7A173500D37D31 /* PreviewController.swift */; };
+		AEE23E5E1E7A185700D37D31 /* DateFormatHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E5D1E7A185700D37D31 /* DateFormatHelp.swift */; };
+		AEE23E601E7A18F000D37D31 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E5F1E7A18F000D37D31 /* Common.swift */; };
+		AEE23E621E7A1A8A00D37D31 /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E611E7A1A8A00D37D31 /* PreviewViewModel.swift */; };
+		AEE23E6A1E7A492900D37D31 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE23E651E7A492900D37D31 /* libWeChatSDK.a */; };
+		AEE23E6B1E7A492900D37D31 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = AEE23E661E7A492900D37D31 /* README.txt */; };
+		AEE23E6E1E7A52D800D37D31 /* ShareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E6C1E7A52D800D37D31 /* ShareHelper.swift */; };
+		AEE23E6F1E7A52D800D37D31 /* ShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E6D1E7A52D800D37D31 /* ShareManager.swift */; };
+		AEE23E721E7A552B00D37D31 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE23E711E7A552B00D37D31 /* SystemConfiguration.framework */; };
+		AEE23E741E7A553300D37D31 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE23E731E7A553300D37D31 /* libz.tbd */; };
+		AEE23E761E7A553D00D37D31 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE23E751E7A553D00D37D31 /* libsqlite3.0.tbd */; };
+		AEE23E781E7A554600D37D31 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE23E771E7A554600D37D31 /* libc++.tbd */; };
+		AEE23E7A1E7A554E00D37D31 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE23E791E7A554E00D37D31 /* Security.framework */; };
+		AEE23E7C1E7A555500D37D31 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE23E7B1E7A555500D37D31 /* CoreTelephony.framework */; };
+		AEE23E7E1E7A555C00D37D31 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE23E7D1E7A555C00D37D31 /* CFNetwork.framework */; };
+		AEE23E801E7A57F100D37D31 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE23E7F1E7A57F100D37D31 /* UIKit.framework */; };
+		AEE23E821E7A585100D37D31 /* LiveShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E811E7A585100D37D31 /* LiveShareView.swift */; };
+		AEE23E841E7A588100D37D31 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E831E7A588100D37D31 /* UIButton+Extension.swift */; };
+		AEE23E861E7A5ABE00D37D31 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE23E851E7A5ABE00D37D31 /* AppNotification.swift */; };
 		AEED1C401E6EAF4500DAC807 /* StreamConfigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C2E1E6EAF4500DAC807 /* StreamConfigration.swift */; };
 		AEED1C411E6EAF4500DAC807 /* DeviceRotation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C301E6EAF4500DAC807 /* DeviceRotation+Extension.swift */; };
 		AEED1C421E6EAF4500DAC807 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C311E6EAF4500DAC807 /* UIColor+Extension.swift */; };
@@ -22,8 +45,6 @@
 		AEED1C4A1E6EAF4500DAC807 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C3C1E6EAF4500DAC807 /* HomeController.swift */; };
 		AEED1C4B1E6EAF4500DAC807 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C3D1E6EAF4500DAC807 /* MapController.swift */; };
 		AEED1C4C1E6EAF4500DAC807 /* PostAffairController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C3E1E6EAF4500DAC807 /* PostAffairController.swift */; };
-		AEED1C4D1E6EAF4500DAC807 /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C3F1E6EAF4500DAC807 /* PreviewController.swift */; };
-		AEED1C4F1E6EBD1A00DAC807 /* SwiftyTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C4E1E6EBD1A00DAC807 /* SwiftyTimer.swift */; };
 		AEED1C511E6EBEBB00DAC807 /* FileManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEED1C501E6EBEBB00DAC807 /* FileManager+Extension.swift */; };
 		CBFE2CA910C66EC5CDDCCC84 /* Pods_LiveDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5453F9C04AB2E45FE462FC /* Pods_LiveDemo.framework */; };
 /* End PBXBuildFile section */
@@ -35,6 +56,33 @@
 		AE1836E61E1DEEA60011F11F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AE1836E91E1DEEA60011F11F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AE1836EB1E1DEEA60011F11F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AEE23E521E7A166500D37D31 /* PreviewControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewControlView.swift; sourceTree = "<group>"; };
+		AEE23E531E7A166500D37D31 /* PreviewNavigationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewNavigationView.swift; sourceTree = "<group>"; };
+		AEE23E541E7A166500D37D31 /* PreviewStatusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewStatusView.swift; sourceTree = "<group>"; };
+		AEE23E591E7A167C00D37D31 /* PreviewUIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewUIController.swift; sourceTree = "<group>"; };
+		AEE23E5B1E7A173500D37D31 /* PreviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
+		AEE23E5D1E7A185700D37D31 /* DateFormatHelp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatHelp.swift; sourceTree = "<group>"; };
+		AEE23E5F1E7A18F000D37D31 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		AEE23E611E7A1A8A00D37D31 /* PreviewViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewViewModel.swift; sourceTree = "<group>"; };
+		AEE23E651E7A492900D37D31 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		AEE23E661E7A492900D37D31 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		AEE23E671E7A492900D37D31 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		AEE23E681E7A492900D37D31 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		AEE23E691E7A492900D37D31 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		AEE23E6C1E7A52D800D37D31 /* ShareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareHelper.swift; sourceTree = "<group>"; };
+		AEE23E6D1E7A52D800D37D31 /* ShareManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareManager.swift; sourceTree = "<group>"; };
+		AEE23E701E7A536100D37D31 /* LiveDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LiveDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		AEE23E711E7A552B00D37D31 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		AEE23E731E7A553300D37D31 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		AEE23E751E7A553D00D37D31 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		AEE23E771E7A554600D37D31 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		AEE23E791E7A554E00D37D31 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		AEE23E7B1E7A555500D37D31 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		AEE23E7D1E7A555C00D37D31 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		AEE23E7F1E7A57F100D37D31 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		AEE23E811E7A585100D37D31 /* LiveShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveShareView.swift; sourceTree = "<group>"; };
+		AEE23E831E7A588100D37D31 /* UIButton+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		AEE23E851E7A5ABE00D37D31 /* AppNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		AEED1C2E1E6EAF4500DAC807 /* StreamConfigration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamConfigration.swift; sourceTree = "<group>"; };
 		AEED1C301E6EAF4500DAC807 /* DeviceRotation+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DeviceRotation+Extension.swift"; sourceTree = "<group>"; };
 		AEED1C311E6EAF4500DAC807 /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -48,8 +96,6 @@
 		AEED1C3C1E6EAF4500DAC807 /* HomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		AEED1C3D1E6EAF4500DAC807 /* MapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		AEED1C3E1E6EAF4500DAC807 /* PostAffairController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostAffairController.swift; sourceTree = "<group>"; };
-		AEED1C3F1E6EAF4500DAC807 /* PreviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
-		AEED1C4E1E6EBD1A00DAC807 /* SwiftyTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyTimer.swift; sourceTree = "<group>"; };
 		AEED1C501E6EBEBB00DAC807 /* FileManager+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileManager+Extension.swift"; sourceTree = "<group>"; };
 		EA5453F9C04AB2E45FE462FC /* Pods_LiveDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LiveDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -59,6 +105,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEE23E801E7A57F100D37D31 /* UIKit.framework in Frameworks */,
+				AEE23E7E1E7A555C00D37D31 /* CFNetwork.framework in Frameworks */,
+				AEE23E7C1E7A555500D37D31 /* CoreTelephony.framework in Frameworks */,
+				AEE23E7A1E7A554E00D37D31 /* Security.framework in Frameworks */,
+				AEE23E781E7A554600D37D31 /* libc++.tbd in Frameworks */,
+				AEE23E761E7A553D00D37D31 /* libsqlite3.0.tbd in Frameworks */,
+				AEE23E741E7A553300D37D31 /* libz.tbd in Frameworks */,
+				AEE23E721E7A552B00D37D31 /* SystemConfiguration.framework in Frameworks */,
+				AEE23E6A1E7A492900D37D31 /* libWeChatSDK.a in Frameworks */,
 				CBFE2CA910C66EC5CDDCCC84 /* Pods_LiveDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,6 +124,14 @@
 		34696E1C2EEF9601EA09D08A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AEE23E7F1E7A57F100D37D31 /* UIKit.framework */,
+				AEE23E7D1E7A555C00D37D31 /* CFNetwork.framework */,
+				AEE23E7B1E7A555500D37D31 /* CoreTelephony.framework */,
+				AEE23E791E7A554E00D37D31 /* Security.framework */,
+				AEE23E771E7A554600D37D31 /* libc++.tbd */,
+				AEE23E751E7A553D00D37D31 /* libsqlite3.0.tbd */,
+				AEE23E731E7A553300D37D31 /* libz.tbd */,
+				AEE23E711E7A552B00D37D31 /* SystemConfiguration.framework */,
 				EA5453F9C04AB2E45FE462FC /* Pods_LiveDemo.framework */,
 			);
 			name = Frameworks;
@@ -104,6 +167,7 @@
 		AE1836DE1E1DEEA60011F11F /* LiveDemo */ = {
 			isa = PBXGroup;
 			children = (
+				AEE23E631E7A491D00D37D31 /* Libs */,
 				AEED1C2D1E6EAF4500DAC807 /* Configuration */,
 				AEED1C2F1E6EAF4500DAC807 /* Extension */,
 				AEED1C341E6EAF4500DAC807 /* Helper */,
@@ -112,14 +176,49 @@
 				AE1836E61E1DEEA60011F11F /* Assets.xcassets */,
 				AE1836E81E1DEEA60011F11F /* LaunchScreen.storyboard */,
 				AE1836EB1E1DEEA60011F11F /* Info.plist */,
+				AEE23E701E7A536100D37D31 /* LiveDemo-Bridging-Header.h */,
 			);
 			path = LiveDemo;
+			sourceTree = "<group>";
+		};
+		AEE23E501E7A166500D37D31 /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				AEE23E611E7A1A8A00D37D31 /* PreviewViewModel.swift */,
+				AEE23E5B1E7A173500D37D31 /* PreviewController.swift */,
+				AEE23E521E7A166500D37D31 /* PreviewControlView.swift */,
+				AEE23E531E7A166500D37D31 /* PreviewNavigationView.swift */,
+				AEE23E541E7A166500D37D31 /* PreviewStatusView.swift */,
+				AEE23E591E7A167C00D37D31 /* PreviewUIController.swift */,
+			);
+			path = Preview;
+			sourceTree = "<group>";
+		};
+		AEE23E631E7A491D00D37D31 /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				AEE23E641E7A492900D37D31 /* WeChatSDK1.7.4 */,
+			);
+			name = Libs;
+			sourceTree = "<group>";
+		};
+		AEE23E641E7A492900D37D31 /* WeChatSDK1.7.4 */ = {
+			isa = PBXGroup;
+			children = (
+				AEE23E651E7A492900D37D31 /* libWeChatSDK.a */,
+				AEE23E661E7A492900D37D31 /* README.txt */,
+				AEE23E671E7A492900D37D31 /* WechatAuthSDK.h */,
+				AEE23E681E7A492900D37D31 /* WXApi.h */,
+				AEE23E691E7A492900D37D31 /* WXApiObject.h */,
+			);
+			path = WeChatSDK1.7.4;
 			sourceTree = "<group>";
 		};
 		AEED1C2D1E6EAF4500DAC807 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
 				AEED1C2E1E6EAF4500DAC807 /* StreamConfigration.swift */,
+				AEE23E851E7A5ABE00D37D31 /* AppNotification.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -132,6 +231,7 @@
 				AEED1C311E6EAF4500DAC807 /* UIColor+Extension.swift */,
 				AEED1C321E6EAF4500DAC807 /* UIDevice+Extension.swift */,
 				AEED1C331E6EAF4500DAC807 /* UILabel+Extension.swift */,
+				AEE23E831E7A588100D37D31 /* UIButton+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -139,8 +239,12 @@
 		AEED1C341E6EAF4500DAC807 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				AEED1C4E1E6EBD1A00DAC807 /* SwiftyTimer.swift */,
+				AEE23E811E7A585100D37D31 /* LiveShareView.swift */,
+				AEE23E6C1E7A52D800D37D31 /* ShareHelper.swift */,
+				AEE23E6D1E7A52D800D37D31 /* ShareManager.swift */,
 				AEED1C351E6EAF4500DAC807 /* DeviceHelper.swift */,
+				AEE23E5D1E7A185700D37D31 /* DateFormatHelp.swift */,
+				AEE23E5F1E7A18F000D37D31 /* Common.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -162,7 +266,7 @@
 				AEED1C3C1E6EAF4500DAC807 /* HomeController.swift */,
 				AEED1C3D1E6EAF4500DAC807 /* MapController.swift */,
 				AEED1C3E1E6EAF4500DAC807 /* PostAffairController.swift */,
-				AEED1C3F1E6EAF4500DAC807 /* PreviewController.swift */,
+				AEE23E501E7A166500D37D31 /* Preview */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -236,6 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE1836EA1E1DEEA60011F11F /* LaunchScreen.storyboard in Resources */,
+				AEE23E6B1E7A492900D37D31 /* README.txt in Resources */,
 				AE1836E71E1DEEA60011F11F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,22 +400,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEED1C4D1E6EAF4500DAC807 /* PreviewController.swift in Sources */,
+				AEE23E5A1E7A167C00D37D31 /* PreviewUIController.swift in Sources */,
+				AEE23E621E7A1A8A00D37D31 /* PreviewViewModel.swift in Sources */,
 				AEED1C471E6EAF4500DAC807 /* BaseNavigationController.swift in Sources */,
+				AEE23E6F1E7A52D800D37D31 /* ShareManager.swift in Sources */,
 				AEED1C421E6EAF4500DAC807 /* UIColor+Extension.swift in Sources */,
 				AEED1C4A1E6EAF4500DAC807 /* HomeController.swift in Sources */,
 				AEED1C451E6EAF4500DAC807 /* DeviceHelper.swift in Sources */,
 				AEED1C4B1E6EAF4500DAC807 /* MapController.swift in Sources */,
+				AEE23E821E7A585100D37D31 /* LiveShareView.swift in Sources */,
 				AEED1C431E6EAF4500DAC807 /* UIDevice+Extension.swift in Sources */,
 				AEED1C4C1E6EAF4500DAC807 /* PostAffairController.swift in Sources */,
+				AEE23E861E7A5ABE00D37D31 /* AppNotification.swift in Sources */,
+				AEE23E5C1E7A173500D37D31 /* PreviewController.swift in Sources */,
 				AEED1C441E6EAF4500DAC807 /* UILabel+Extension.swift in Sources */,
 				AEED1C511E6EBEBB00DAC807 /* FileManager+Extension.swift in Sources */,
-				AEED1C4F1E6EBD1A00DAC807 /* SwiftyTimer.swift in Sources */,
 				AEED1C461E6EAF4500DAC807 /* AppDelegate.swift in Sources */,
+				AEE23E841E7A588100D37D31 /* UIButton+Extension.swift in Sources */,
 				AEED1C481E6EAF4500DAC807 /* MainViewController.swift in Sources */,
+				AEE23E601E7A18F000D37D31 /* Common.swift in Sources */,
+				AEE23E581E7A166500D37D31 /* PreviewStatusView.swift in Sources */,
 				AEED1C401E6EAF4500DAC807 /* StreamConfigration.swift in Sources */,
+				AEE23E6E1E7A52D800D37D31 /* ShareHelper.swift in Sources */,
 				AEED1C491E6EAF4500DAC807 /* ShowNavigationController.swift in Sources */,
+				AEE23E5E1E7A185700D37D31 /* DateFormatHelp.swift in Sources */,
+				AEE23E571E7A166500D37D31 /* PreviewNavigationView.swift in Sources */,
 				AEED1C411E6EAF4500DAC807 /* DeviceRotation+Extension.swift in Sources */,
+				AEE23E561E7A166500D37D31 /* PreviewControlView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,11 +541,27 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = J45R7ZYGYH;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = LiveDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LiveDemo/WeChatSDK1.7.4",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-framework",
+					"\"GPUImage\"",
+					"-framework",
+					"\"SnapKit\"",
+					"-framework",
+					"\"libksygpulive\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.manajay.LiveDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LiveDemo/LiveDemo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -440,11 +572,27 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = J45R7ZYGYH;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = LiveDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LiveDemo/WeChatSDK1.7.4",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-framework",
+					"\"GPUImage\"",
+					"-framework",
+					"\"SnapKit\"",
+					"-framework",
+					"\"libksygpulive\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.manajay.LiveDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LiveDemo/LiveDemo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

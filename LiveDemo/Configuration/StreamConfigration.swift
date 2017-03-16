@@ -137,4 +137,23 @@ enum ScreenOrientation: Int {
     }
   }
   
+  var fullScreenWidth: CGFloat {
+    switch self {
+    case .portrait:
+      return UIScreen.main.bounds.width
+    case .landscapeRight:
+      return UIScreen.main.bounds.height
+    }
+  }
+  
+  var fullScreenHeight: CGFloat {
+    switch self {
+    case .portrait:
+      return UIScreen.main.bounds.height
+    case .landscapeRight:
+      return UIScreen.main.bounds.width
+    }
+  }
+
+  
 }
