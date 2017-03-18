@@ -33,11 +33,25 @@ override var shouldAutorotate: Bool {
 
 ```
 fileprivate func orientationTo(_ orientation: UIInterfaceOrientation) {
-    let orientationValue = orientation.rawValue
-    UIDevice.current.setValue(orientationValue, forKey: "orientation")
+      // 先自己给一个值0，然后再修改为其他屏幕方向就能顺利调起 KVO 来进入屏幕旋转流程
+    UIDevice.current.setValue(UIInterfaceOrientation.unknown.rawValue, forKey: "orientation")
+    UIDevice.current.setValue(orientation.rawValue, forKey: "orientation")
   }
+/**
+   1.当当前设备方向属性 orientation 发生变化时候，会调用 Controller 的 shouldAutorotate 属性。
+   2.如果 shouldAutorotate 为 true 则会进一步调用 supportedInterfaceOrientations 来查询支持的屏幕方向。
+   3.当 Controller 支持的方向和设备方向一致时候就进行旋转操作。
+   
+   神 Bug 就出在第一步。UIDevice 的 orientation 属性并不是指的屏幕的方向，而是设备的方向。我们屏幕旋转的实现就是通过手动修改 orientation 属性来欺骗设备告诉他设备方向发生了变化，从而开始屏幕旋转流程。
+   
+   如果当屏幕 UI 处于横屏且 shouldAutorotate = false 时候，我们旋转手机设备 orientation 属性会持续变化并开始屏幕旋转流程调用 shouldAutorotate。但是因为 shouldAutorotate 为 false 所以不会有任何反应。
+   
+   当屏幕 UI 处于横屏且我们旋转手机设备至竖屏状态时， orientation 属性已经为 UIInterfaceOrientation.portrait.rawValue 了，所以此时再次设置为 UIInterfaceOrientation.portrait.rawValue 并不会调用被系统认为屏幕方向发生了变化。所以就不会有任何变化。
+   
+   */
 
 ```
+
 注意的是 如果上一个控制器只支持竖屏,则当前的控制器要在 `viewWillDisappear`的时候强制转回 竖屏.
 
 ### 2. 金山云SDK的使用
@@ -50,5 +64,8 @@ fileprivate func orientationTo(_ orientation: UIInterfaceOrientation) {
 * 利用运行时,使导航控制器边缘侧滑改为 全局右滑退出当前视图的手势
 * 聚焦的点击效果
 
+### 4.分支 Share 添加了 微信的分享的Demo
 
+### 5. 这里在使用金山云SDK的时候 出现的一个超级大的BUG
 
+金山云的推流streamerKit 要求最好只实例化一个对象,也就是做成单例处理.而我因为功能需要,添加了一个Timer来做推流的计时功能,结果造成了循环应用当前控制器,导致控制器以及其持有的streamerKit 都没有释放, 导致 重复进入控制器的时候,创建了多个对象,造成经常性的推流卡死屏幕的现象,以及摄像头采集初始化缓慢,这都是因为循环引用造成的.
